@@ -1,0 +1,14 @@
+{
+  "name": "external-api",
+  "version": "1.0.0",
+  "description": "External API Demo",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "MFK",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
