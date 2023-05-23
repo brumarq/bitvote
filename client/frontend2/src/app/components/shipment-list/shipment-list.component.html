@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-sm-7">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Creation</th>
+                    <th scope="col">Farmer</th>
+                    <th scope="col">Shipper</th>
+                    <th scope="col">Distributor</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Load</th>
+                    <th scope="col">Delivery</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let s of eggShipments">
+                <tr (click)="selectShipment(s)">
+                    <td>{{ s.record.shipmentCreation }}</td>
+                    <td>{{ s.record.farmerId }}</td>
+                    <td>{{ s.record.shipperId }}</td>
+                    <td>{{ s.record.distributorId }}</td>
+                    <td>{{ s.record.currentState }}</td>
+                    <td>{{ s.record.loadTimestamp }}</td>
+                    <td>{{ s.record.deliveryDate }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-7">
+        <app-shipment-details [eggShipment]="selectedShipment"></app-shipment-details>        
+    </div>
+</div>

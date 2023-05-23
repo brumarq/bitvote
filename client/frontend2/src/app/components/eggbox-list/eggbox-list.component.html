@@ -1,0 +1,21 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Packed</th>
+            <th scope="col">Origin</th>
+            <th scope="col">Holder</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let box of eggBoxes">
+        <tr>
+            <td>{{ box.record.packingTimestamp }}</td>
+            <td>{{ box.record.originId }}</td>
+            <td>{{ box.record.holderId }}</td>
+            <td>{{ box.record.quantity }}</td>
+            <td>{{ box.record.currentState }}</td>
+        </tr>
+    </tbody>
+</table>
+<div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>

@@ -245,3 +245,25 @@ exports.reportDamage = async function (networkObj, eggBoxId) {
         return response;
     }
 };
+
+exports.validateToken = async function (req,oAuth2Client,OAuth2Data) {
+
+    var token = req.headers['authorization'];
+
+    if(!token) {
+        return false;
+    }
+
+    token = token.replace('Bearer ',''); 
+    
+    console.log(token);
+
+    try {
+        let ticket = await oAuth2Client.verifyIdToken({ idToken:token, audience: OAuth2Data.web.client_id });
+        return true;
+    } catch(error) {
+        console.error('error',error);
+        return false;
+    }
+
+}
