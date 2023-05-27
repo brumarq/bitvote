@@ -6,6 +6,12 @@
 
 # Node
 /node_modules
+/client/backend/node_modules
+/client/backend/package-lock.json
+/client/frontend2/node_modules
+/client/frontend2/package-lock.json
+/chaincode/node_modules
+/chaincode/package-lock.json
 npm-debug.log
 yarn-error.log
 

@@ -10,6 +10,7 @@ const fs = require('fs');
 const configPath = path.join(process.cwd(), './config.json');
 const configJSON = fs.readFileSync(configPath, 'utf8');
 const config = JSON.parse(configJSON);
+console.log(process.env.FABRIC_PATH)
 
 // let userName = config.userName;
 let gatewayDiscovery = config.gatewayDiscovery;
