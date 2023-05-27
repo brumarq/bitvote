@@ -6,6 +6,8 @@
 
 # Node
 /node_modules
+/client/backend/node_modules
+/client/frontend2/node_modules
 npm-debug.log
 yarn-error.log
 
