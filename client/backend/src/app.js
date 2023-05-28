@@ -62,6 +62,75 @@ app.post('/rest/participants', async (req, res) => {
 });
 
 /**
+ * Create Poll
+ * 
+ * {"organizerId": "bruno.coimbra55@gmail.com","options":"['option1', 'option2']","open":"10-12-1999","closed":"12-12-2100"}
+ */
+app.post('/rest/poll', async (req, res) => {
+
+    const validToken = await network.validateToken(req,oAuth2Client,OAuth2Data);
+
+    if(!validToken) {
+        res.status(401).json({ message: 'invalid token'} );
+        return;
+    }
+
+    let networkObj = await network.connectToNetwork(req.body.organizerId);
+
+    console.log(req.body.organizerId);
+
+    if (networkObj.error) {
+        res.status(400).json({ message: networkObj.error });
+    }
+    
+    let invokeResponse = await network.createPoll(networkObj, req.body.options, 
+                                    req.body.open, req.body.closed);
+
+
+    if (invokeResponse.error) {
+        res.status(400).json({ message: invokeResponse.error });
+    } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(201).send(invokeResponse);
+    }
+});
+
+/**
+ * Create Poll
+ * 
+ * {"voterId":"brunocm@pm.me","poll_ID":"poll:2","voteTimestamp":"10-12-2023","selection":"0"}
+ */
+app.post('/rest/vote', async (req, res) => {
+
+    const validToken = await network.validateToken(req,oAuth2Client,OAuth2Data);
+
+    if(!validToken) {
+        res.status(401).json({ message: 'invalid token'} );
+        return;
+    }
+
+    console.log('req.body: ');
+    console.log(req.body);
+
+    let networkObj = await network.connectToNetwork(req.body.voterId);
+
+    if (networkObj.error) {
+        res.status(400).json({ message: networkObj.error });
+    }
+
+    let invokeResponse = await network.createVote(networkObj, req.body.poll_ID, 
+                                    req.body.voteTimestamp, req.body.selection);
+
+
+    if (invokeResponse.error) {
+        res.status(400).json({ message: invokeResponse.error });
+    } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(201).send(invokeResponse);
+    }
+});
+
+/**
  * Pack eggs
  * An authentication token is mandatory
  * 
