@@ -10,7 +10,6 @@ const fs = require('fs');
 const configPath = path.join(process.cwd(), './config.json');
 const configJSON = fs.readFileSync(configPath, 'utf8');
 const config = JSON.parse(configJSON);
-console.log(process.env.FABRIC_PATH)
 
 // let userName = config.userName;
 let gatewayDiscovery = config.gatewayDiscovery;
@@ -23,6 +22,32 @@ const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 exports.getAdminUser = async function () {
     return appAdmin;
 }
+
+exports.createPoll = async function (networkObj, options, open, closed) {
+    try {
+
+        let response = await networkObj.contract.submitTransaction('createPoll', options, open, closed);
+        
+        await networkObj.gateway.disconnect();
+        return response.toString();
+    } catch (error) {
+        let response = { error: 'the following errors ocurred: ' + error.message? error.message : error};
+        return response;
+    }
+};
+
+exports.createVote = async function (networkObj, poll_ID, voteTimestamp, selection) {
+    try {
+
+        let response = await networkObj.contract.submitTransaction('createVote', poll_ID, voteTimestamp, selection);
+        
+        await networkObj.gateway.disconnect();
+        return response.toString();
+    } catch (error) {
+        let response = { error: 'the following errors ocurred: ' + error.message? error.message : error};
+        return response;
+    }
+};
 
 exports.registerUser = async function (userId, name, role) {
 

@@ -12,10 +12,10 @@ class Vote extends State {
     constructor(id, voter_ID, poll_ID, voteTimestamp, selection) {
         super('Vote');
         this.setId(id);
-        this.voter_ID(voter_ID);
-        this.poll_ID(poll_ID);
-        this.voteTimestamp(voteTimestamp);
-        this.selection(selection);
+        this.setVoter_ID(voter_ID);
+        this.setPoll_ID(poll_ID);
+        this.setVoteTimestamp(voteTimestamp);
+        this.setSelection(selection);
     }
 
     /* Basic Getters */

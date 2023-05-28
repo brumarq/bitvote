@@ -19,9 +19,8 @@
                     <label for="inputRole">Role</label>
                     <select class="form-control" id="inputRole" name="role" 
                         [(ngModel)]="participant.role" #roleComponent="ngModel" required>
-                        <option>Farmer</option>
-                        <option>Shipper</option>
-                        <option>Distributor</option>
+                        <option>Voter</option>
+                        <option>Organizer</option>
                     </select>
                     <div *ngIf="!roleComponent?.valid && roleComponent?.touched" class="alert alert-warning">Please enter a valid role</div>
                 </div>

@@ -1,6 +1,6 @@
 /*
- * Representation of an Participant Asset
- * Author: BCM
+ * Representation of an Egg Box Asset
+ * Author: MFK
  */
 
 'use strict';
