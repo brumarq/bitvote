@@ -25,10 +25,12 @@
    c. Setup path variable:  
    `export FABRIC_PATH=[pathToFabricSamples]/fabric-samples/`
    
-   d. Create admin:  
+   d. Replace the client/backend/src/auth/oauth2.keys.json with the one given to you
+   
+   e. Create admin:  
    `node src/enrollAdmin.js`
    
-   e. Start server:  
+   f. Start server:  
    `npm start`
 
 ## 3. Setup Frontend:
