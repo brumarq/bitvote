@@ -179,9 +179,12 @@ class EggTrackingContract extends Contract {
     // Process the votes and summarize the results
     while (true) {
       const res = await resultsIterator.next();
+      console.log("---------- while(true) ---------")
+      console.log("res", res)
 
       if (res.value && res.value.value.toString()) {
         const vote = JSON.parse(res.value.value.toString());
+        console.log("vote", vote)
 
         if (resultSummary[poll.options[vote.selection]]) {
           resultSummary[poll.options[vote.selection]]++;

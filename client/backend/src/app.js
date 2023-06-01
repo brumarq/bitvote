@@ -131,6 +131,45 @@ app.post('/rest/vote', async (req, res) => {
 });
 
 /**
+ * Get Poll Results
+ */
+ app.get("/rest/results", async (req, res) => {
+	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
+
+	if (!validToken) {
+		res.status(401).json({ message: "invalid token" });
+		return;
+	}
+
+	console.log("req.body: ");
+	console.log(req.body);
+
+	let networkObj = await network.connectToNetwork(req.body.voterId);
+
+	if (networkObj.error) {
+		res.status(400).json({ message: networkObj.error });
+		return;
+	}
+
+	let invokeResponse = await network.query(
+		networkObj,
+		req.body.poll_ID,
+		"reportResults"
+	);
+
+    // let invokeResponse = await network.query(networkObj, req.params.participantId, 'queryShipments');
+
+    console.log("invokeResponse", invokeResponse)
+
+	if (invokeResponse.error) {
+		res.status(400).json({ message: invokeResponse.error });
+	} else {
+		res.setHeader("Content-Type", "application/json");
+		res.status(200).send(invokeResponse);
+	}
+});
+
+/**
  * Pack eggs
  * An authentication token is mandatory
  * 
