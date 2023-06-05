@@ -157,8 +157,7 @@ class EggTrackingContract extends Contract {
 		}
 
 		const poll = JSON.parse(pollBuffer);
-		const options = poll.options;
-		console.log(`OPTIONS:\n${options}`); // TEST
+		const options = JSON.parse(poll.options);
 
 		// Prepare the query to retrieve the votes for the given poll
 		let queryString = {
@@ -176,14 +175,9 @@ class EggTrackingContract extends Contract {
 		// Process the votes and summarize the results
 		while (true) {
 			const res = await resultsIterator.next();
-			console.log("---------- while(true) ---------"); // TEST
-			console.log("res", res); // TEST
 
 			if (res.value && res.value.value) {
 				const vote = JSON.parse(res.value.value);
-				console.log(`VOTE:\n${vote}`);
-				console.log(`SELECTION:\n${vote.selection}`);
-
 				const selection = options[vote.selection];
 
 				if (resultSummary[selection]) {
