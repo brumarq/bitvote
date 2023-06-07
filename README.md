@@ -45,3 +45,5 @@
    _find out how to_
    
    d. Run `npm install` to install dependencies for the frontend.
+   
+   e. `ng serve` to run angular server
