@@ -71,14 +71,14 @@ app.post("/rest/participants", async (req, res) => {
  * {"organizerId": "bruno.coimbra55@gmail.com","options":"['option1', 'option2']","open":"10-12-1999","closed":"12-12-2100"}
  */
 app.post("/rest/poll", async (req, res) => {
-	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
+	const userEmail = await network.validateToken(req, oAuth2Client, OAuth2Data);
 
-	if (!validToken) {
+	if (!userEmail) {
 		res.status(401).json({ message: "invalid token" });
 		return;
 	}
 
-	let networkObj = await network.connectToNetwork(req.body.organizerId);
+	let networkObj = await network.connectToNetwork(userEmail);
 
 	if (networkObj.error) {
 		res.status(400).json({ message: networkObj.error });
@@ -92,7 +92,10 @@ app.post("/rest/poll", async (req, res) => {
 	);
 
 	if (invokeResponse.error) {
-		res.status(400).json({ message: invokeResponse.error });
+		const errorMessageRegex = /message=([^,]+)/g;
+		const errorMessages = invokeResponse.error.match(errorMessageRegex).map(match => match.replace('message=', ''));
+
+		res.status(400).json({ message: errorMessages[1] });
 	} else {
 		res.setHeader("Content-Type", "application/json");
 		res.status(201).send(invokeResponse);
@@ -105,17 +108,14 @@ app.post("/rest/poll", async (req, res) => {
  * {"voterId":"brunocm@pm.me","poll_ID":"poll:2","voteTimestamp":"10-12-2023","selection":"0"}
  */
 app.post("/rest/vote", async (req, res) => {
-	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
+	const userEmail = await network.validateToken(req, oAuth2Client, OAuth2Data);
 
-	if (!validToken) {
+	if (!userEmail) {
 		res.status(401).json({ message: "invalid token" });
 		return;
 	}
 
-	console.log("req.body: ");
-	console.log(req.body);
-
-	let networkObj = await network.connectToNetwork(req.body.voterId);
+	let networkObj = await network.connectToNetwork(userEmail);
 
 	if (networkObj.error) {
 		res.status(400).json({ message: networkObj.error });
@@ -124,7 +124,7 @@ app.post("/rest/vote", async (req, res) => {
 	let invokeResponse = await network.createVote(
 		networkObj,
 		req.body.poll_ID,
-		req.body.voteTimestamp,
+		new Date().getTime(),
 		req.body.selection
 	);
 
@@ -140,17 +140,14 @@ app.post("/rest/vote", async (req, res) => {
  * Get Poll Results
  */
 app.get("/rest/results", async (req, res) => {
-	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
+	const userEmail = await network.validateToken(req, oAuth2Client, OAuth2Data);
 
-	if (!validToken) {
+	if (!userEmail) {
 		res.status(401).json({ message: "invalid token" });
 		return;
 	}
 
-	console.log("req.body: ");
-	console.log(req.body);
-
-	let networkObj = await network.connectToNetwork(req.body.id);
+	let networkObj = await network.connectToNetwork(userEmail);
 
 	if (networkObj.error) {
 		res.status(400).json({ message: networkObj.error });
@@ -158,11 +155,7 @@ app.get("/rest/results", async (req, res) => {
 	}
 
 	let invokeResponse = await network.query(networkObj, req.body.poll_ID, "reportResults");
-
-	// let invokeResponse = await network.query(networkObj, req.params.participantId, 'queryShipments');
-
-	console.log("invokeResponse", invokeResponse);
-
+	
 	if (invokeResponse.error) {
 		res.status(400).json({ message: invokeResponse.error });
 	} else {
@@ -199,242 +192,6 @@ app.post("/rest/participants/auth", async (req, res) => {
 	} else {
 		res.setHeader("Content-Type", "application/json");
 		res.status(200).send(invokeResponse);
-	}
-});
-
-/**
- * queryEggs
- * An authentication token is mandatory
- *
- */
-app.get("/rest/participants/:participantId/eggboxes", async (req, res) => {
-	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
-
-	if (!validToken) {
-		res.status(401).json({ message: "invalid token" });
-		return;
-	}
-
-	let networkObj = await network.connectToNetwork(req.params.participantId);
-
-	if (networkObj.error) {
-		res.status(400).json({ message: networkObj.error });
-		return;
-	}
-
-	let invokeResponse = await network.query(
-		networkObj,
-		req.params.participantId,
-		"queryEggs"
-	);
-
-	if (invokeResponse.error) {
-		res.status(400).json({ message: invokeResponse.error });
-	} else {
-		res.setHeader("Content-Type", "application/json");
-		res.status(200).send(invokeResponse);
-	}
-});
-
-/**
- * queryShipments
- * An authentication token is mandatory
- *
- */
-app.get("/rest/participants/:participantId/shipments", async (req, res) => {
-	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
-
-	if (!validToken) {
-		res.status(401).json({ message: "invalid token" });
-		return;
-	}
-
-	let networkObj = await network.connectToNetwork(req.params.participantId);
-
-	if (networkObj.error) {
-		res.status(400).json({ message: networkObj.error });
-		return;
-	}
-
-	let invokeResponse = await network.query(
-		networkObj,
-		req.params.participantId,
-		"queryShipments"
-	);
-
-	if (invokeResponse.error) {
-		res.status(400).json({ message: invokeResponse.error });
-	} else {
-		res.setHeader("Content-Type", "application/json");
-		res.status(200).send(invokeResponse);
-	}
-});
-
-/**
- * Pack eggs
- *
- * {"farmerId":"F1","packingTimestamp":"20191124141755","quantity":"30"}
- */
-app.post("/rest/eggboxes", async (req, res) => {
-	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
-
-	if (!validToken) {
-		res.status(401).json({ message: "invalid token" });
-		return;
-	}
-
-	let networkObj = await network.connectToNetwork(req.body.farmerId);
-
-	if (networkObj.error) {
-		res.status(400).json({ message: networkObj.error });
-		return;
-	}
-
-	let invokeResponse = await network.packEggs(
-		networkObj,
-		req.body.farmerId,
-		req.body.packingTimestamp,
-		req.body.quantity
-	);
-
-	if (invokeResponse.error) {
-		res.status(400).json({ message: invokeResponse.error });
-	} else {
-		res.setHeader("Content-Type", "application/json");
-		res.status(201).send(invokeResponse);
-	}
-});
-
-/**
- * Report damaged
- * An authentication token is mandatory
- *
- * {"participantId":"F1"}
- */
-app.put("/rest/eggboxes/:eggBoxId/damaged", async (req, res) => {
-	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
-
-	if (!validToken) {
-		res.status(401).json({ message: "invalid token" });
-		return;
-	}
-
-	let networkObj = await network.connectToNetwork(req.body.participantId);
-
-	if (networkObj.error) {
-		res.status(400).json({ message: networkObj.error });
-	}
-
-	let invokeResponse = await network.reportDamage(networkObj, req.params.eggBoxId);
-
-	if (invokeResponse.error) {
-		res.status(400).json({ message: invokeResponse.error });
-	} else {
-		res.status(200).json({ message: invokeResponse });
-	}
-});
-
-/**
- * Create Shipment
- *
- * {"farmerId":"F1","shipperId":"S1","distributorId":"D1","shipmentCreation":"20191124143231","min":"1","max":"30"}
- */
-app.post("/rest/shipments", async (req, res) => {
-	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
-
-	if (!validToken) {
-		res.status(401).json({ message: "invalid token" });
-		return;
-	}
-
-	console.log("req.body: ");
-	console.log(req.body);
-
-	let networkObj = await network.connectToNetwork(req.body.farmerId);
-
-	if (networkObj.error) {
-		res.status(400).json({ message: networkObj.error });
-	}
-
-	let invokeResponse = await network.createShipment(
-		networkObj,
-		req.body.farmerId,
-		req.body.shipperId,
-		req.body.distributorId,
-		req.body.shipmentCreation,
-		req.body.min,
-		req.body.max
-	);
-
-	if (invokeResponse.error) {
-		res.status(400).json({ message: invokeResponse.error });
-	} else {
-		res.setHeader("Content-Type", "application/json");
-		res.status(201).send(invokeResponse);
-	}
-});
-
-/**
- * Load Boxes
- *
- * {"shipperId":"S1","loadTimestamp":"20191125081223"}
- */
-app.post("/rest/shipments/:shipmentId/load", async (req, res) => {
-	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
-
-	if (!validToken) {
-		res.status(401).json({ message: "invalid token" });
-		return;
-	}
-
-	let networkObj = await network.connectToNetwork(req.body.shipperId);
-
-	if (networkObj.error) {
-		res.status(400).json({ message: networkObj.error });
-	}
-
-	let invokeResponse = await network.loadBoxes(
-		networkObj,
-		req.params.shipmentId,
-		req.body.loadTimestamp
-	);
-
-	if (invokeResponse.error) {
-		res.status(400).json({ message: invokeResponse.error });
-	} else {
-		res.status(200).json({ message: invokeResponse });
-	}
-});
-
-/**
- * Deliver Boxes
- *
- * {"shipperId":"S1","deliveryDate":"20191125092447"}
- */
-app.post("/rest/shipments/:shipmentId/delivery", async (req, res) => {
-	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
-
-	if (!validToken) {
-		res.status(401).json({ message: "invalid token" });
-		return;
-	}
-
-	let networkObj = await network.connectToNetwork(req.body.shipperId);
-
-	if (networkObj.error) {
-		res.status(400).json({ message: networkObj.error });
-	}
-
-	let invokeResponse = await network.deliverBoxes(
-		networkObj,
-		req.params.shipmentId,
-		req.body.deliveryDate
-	);
-
-	if (invokeResponse.error) {
-		res.status(400).json({ message: invokeResponse.error });
-	} else {
-		res.status(200).json({ message: invokeResponse });
 	}
 });
 

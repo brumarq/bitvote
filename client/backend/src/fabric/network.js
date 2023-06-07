@@ -43,12 +43,12 @@ exports.createPoll = async function (networkObj, options, open, closed) {
 	}
 };
 
-exports.createVote = async function (networkObj, poll_ID, voteTimestamp, selection) {
+exports.createVote = async function (networkObj, poll_ID, timestamp, selection) {
 	try {
 		let response = await networkObj.contract.submitTransaction(
 			"createVote",
 			poll_ID,
-			voteTimestamp,
+			timestamp,
 			selection
 		);
 
@@ -238,70 +238,6 @@ exports.query = async function (networkObj, id, query) {
 	}
 };
 
-exports.packEggs = async function (networkObj, farmerId, packingTimestamp, quantity) {
-	try {
-		let response = await networkObj.contract.submitTransaction(
-			"packEggs",
-			farmerId,
-			packingTimestamp,
-			quantity
-		);
-		await networkObj.gateway.disconnect();
-		return response.toString();
-	} catch (error) {
-		let response = {
-			error: "the following errors ocurred: " + error.message ? error.message : error,
-		};
-		return response;
-	}
-};
-
-exports.createShipment = async function (
-	networkObj,
-	farmerId,
-	shipperId,
-	distributorId,
-	shipmentCreation,
-	min,
-	max
-) {
-	try {
-		let response = await networkObj.contract.submitTransaction(
-			"createShipment",
-			farmerId,
-			shipperId,
-			distributorId,
-			shipmentCreation,
-			min,
-			max
-		);
-		await networkObj.gateway.disconnect();
-		return response.toString();
-	} catch (error) {
-		let response = {
-			error: "the following errors ocurred: " + error.message ? error.message : error,
-		};
-		return response;
-	}
-};
-
-exports.loadBoxes = async function (networkObj, shipmentId, loadTimestamp) {
-	try {
-		let response = await networkObj.contract.submitTransaction(
-			"loadBoxes",
-			shipmentId,
-			loadTimestamp
-		);
-		await networkObj.gateway.disconnect();
-		return response.toString();
-	} catch (error) {
-		let response = {
-			error: "the following errors ocurred: " + error.message ? error.message : error,
-		};
-		return response;
-	}
-};
-
 exports.getParticipant = async function (networkObj, participantId) {
 	try {
 		let response = await networkObj.contract.evaluateTransaction(
@@ -320,36 +256,6 @@ exports.getParticipant = async function (networkObj, participantId) {
 	}
 };
 
-exports.deliverBoxes = async function (networkObj, shipmentId, deliveryDate) {
-	try {
-		let response = await networkObj.contract.submitTransaction(
-			"deliverBoxes",
-			shipmentId,
-			deliveryDate
-		);
-		await networkObj.gateway.disconnect();
-		return response.toString();
-	} catch (error) {
-		let response = {
-			error: "the following errors ocurred: " + error.message ? error.message : error,
-		};
-		return response;
-	}
-};
-
-exports.reportDamage = async function (networkObj, eggBoxId) {
-	try {
-		let response = await networkObj.contract.submitTransaction("reportDamage", eggBoxId);
-		await networkObj.gateway.disconnect();
-		return response.toString();
-	} catch (error) {
-		let response = {
-			error: "the following errors ocurred: " + error.message ? error.message : error,
-		};
-		return response;
-	}
-};
-
 exports.validateToken = async function (req, oAuth2Client, OAuth2Data) {
 	var token = req.headers["authorization"];
 
@@ -359,14 +265,13 @@ exports.validateToken = async function (req, oAuth2Client, OAuth2Data) {
 
 	token = token.replace("Bearer ", "");
 
-	console.log(token);
-
 	try {
 		let ticket = await oAuth2Client.verifyIdToken({
 			idToken: token,
 			audience: OAuth2Data.web.client_id,
 		});
-		return true;
+
+		return ticket.payload.email;
 	} catch (error) {
 		console.error("error", error);
 		return false;

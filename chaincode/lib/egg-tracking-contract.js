@@ -225,59 +225,89 @@ class EggTrackingContract extends Contract {
 	 *
 	 * @param ctx - The transaction context object
 	 * @param poll_ID - The poll_ID of the vote
-	 * @param voteTimestamp - The timestamp of the vote
 	 * @param selection - The selected option
 	 * @returns The created vote
 	 */
-	async createVote(ctx, poll_ID, voteTimestamp, selection) {
+	async createVote(ctx, poll_ID, timestamp, selection) {
 		let identity = ctx.clientIdentity;
-
+	
 		// Check if the participant is a voter
 		if (!this.isVoter(identity)) {
 			throw new Error("Only voters can create votes");
 		}
-
+	
 		// Get the participant ID
 		const participantId = identity.getAttributeValue("id");
-
+	
 		if (!participantId) {
 			throw new Error("Participant ID not found");
 		}
-
+	
 		// Get the poll from the world state
 		const pollBuffer = await ctx.stub.getState(poll_ID);
-
+	
 		if (!pollBuffer || pollBuffer.length === 0) {
 			throw new Error(`Poll with ID ${poll_ID} does not exist`);
 		}
-
+	
 		const poll = JSON.parse(pollBuffer.toString());
+		const options = JSON.parse(poll.options);
 
+		if (!options[selection]) {
+			throw new Error(`The selected option does not exist`);
+		}
+	
 		// Check if the poll is open
-		const currentTimestamp = new Date().getTime();
+		const currentTimestamp = timestamp;
 		const openTimestamp = new Date(poll.open).getTime();
 		const closedTimestamp = new Date(poll.closed).getTime();
-
+	
 		if (currentTimestamp < openTimestamp) {
 			throw new Error("The poll is not open yet");
 		}
-
+	
 		if (currentTimestamp > closedTimestamp) {
 			throw new Error("The poll is closed");
 		}
-
+	
+		// Prepare the query to retrieve the votes for the given poll by the same participant
+		let queryString = {
+			selector: {
+				type: "Vote",
+				poll_ID: poll_ID,
+				voter_ID: participantId,
+			},
+		};
+	
+		// Execute the query to retrieve the votes for the given poll by the same participant
+		const existingVotesIterator = await ctx.stub.getQueryResult(JSON.stringify(queryString));
+	
+		// Check if the participant has already voted for the selected option
+		while (true) {
+			const res = await existingVotesIterator.next();
+	
+			if (res.value && res.value.value) {
+				throw new Error(`Participant with ID ${participantId} has already voted`);
+			}
+	
+			if (res.done) {
+				await existingVotesIterator.close();
+				break;
+			}
+		}
+	
 		// Generate a unique vote ID
 		const voteID = "vote:" + this.counter;
-
+	
 		// Create the vote object
-		const vote = new Vote(voteID, participantId, poll_ID, voteTimestamp, selection);
-
+		const vote = new Vote(voteID, participantId, poll_ID, timestamp, selection);
+	
 		// Increment the counter
 		this.counter++;
-
+	
 		// Store the vote in the world state
 		await ctx.stub.putState(voteID, vote.serialise());
-
+	
 		return vote;
 	}
 	/**
@@ -297,7 +327,7 @@ class EggTrackingContract extends Contract {
 
 		// Check if the participant is an organizer
 		if (!this.isOrganizer(identity)) {
-			throw new Error("Only voters can create votes");
+			throw new Error("Only organizers can create polls");
 		}
 
 		// Generate a unique poll ID
