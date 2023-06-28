@@ -90,6 +90,7 @@ API Calls:
 - `/rest/results`: This is a GET request that allows users to make a request of the results of a certain poll.
 
 # 6. Architecture Organization
+## 6.1 Peers and organizations
 In the BitVote voting system, peers and organizations play important roles.
 
 Each peer stores the voting records and verify each vote before adding it to the system, and each peer belongs to an organization. In the BitVote system, there are multiple organizations, such as org1.example.com and org2.example.com. Each organization operates its own peer, like peer0.org1.example.com and peer0.org2.example.com.
