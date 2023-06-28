@@ -1,5 +1,5 @@
 'use scrict';
 
-const EggTrackingContract = require('./lib/egg-tracking-contract.js');
+const VotingContract = require('./lib/voting-contract.js');
 
-module.exports.contracts = [EggTrackingContract];
+module.exports.contracts = [VotingContract];

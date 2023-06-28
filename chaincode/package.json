@@ -1,5 +1,5 @@
 {
-  "name": "egg-tracking-contract",
+  "name": "voting-contract",
   "version": "1.0.0",
   "description": "Egg Tracking contract implemented in JavaScript",
   "main": "index.js",

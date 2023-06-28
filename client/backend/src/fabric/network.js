@@ -185,7 +185,7 @@ exports.connectToNetwork = async function (userName) {
 		const network = await gateway.getNetwork("mychannel");
 
 		// Get the contract we have installed on the peer
-		const contract = await network.getContract("egg-tracking");
+		const contract = await network.getContract("voting-contract");
 
 		let networkObj = {
 			contract: contract,

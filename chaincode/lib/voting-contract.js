@@ -13,7 +13,7 @@ const Vote = require("./model/vote.js");
 // import Participant
 const Participant = require("./model/participant.js");
 
-class EggTrackingContract extends Contract {
+class VotingContract extends Contract {
 	counter = 0;
 
 	/**
@@ -349,4 +349,4 @@ class EggTrackingContract extends Contract {
 	}
 }
 
-module.exports = EggTrackingContract;
+module.exports = VotingContract;
