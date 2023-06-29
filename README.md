@@ -15,9 +15,9 @@
 - [7. Network hosting](#7-network-hosting)
 - [8. Individual contribution table](#8-individual-contribution-table)
 - [9. Setup Instructions](#9-setup-instructions)
-  - [Setup Hyperledger:](#setup-hyperledger)
-  - [Setup Backend:](#setup-backend)
-  - [Setup Frontend:](#setup-frontend)
+  - [9.1 Setup Hyperledger:](#setup-hyperledger)
+  - [9.2 Setup Backend:](#setup-backend)
+  - [9.3 Setup Frontend:](#setup-frontend)
     
 # 1. Use Case Description
 
