@@ -134,7 +134,7 @@ A table containing a description of the contribution per participant. Students s
 
 # 9. Setup Instructions
 
-## Setup Hyperledger
+## 9.1 Setup Hyperledger
 
    a. Navigate to test-network:   
    `cd [pathToFabricSamples]/fabric-samples/test-network`
@@ -148,7 +148,7 @@ A table containing a description of the contribution per participant. Students s
    d. Build chaincode:   
    `./network.sh deployCC -ccn voting-contract -ccp /[PathToRepo]/bitvote/chaincode -ccv 1 -ccs 1 -ccl javascript`
 
-## Setup Backend
+## 9.2 Setup Backend
 
    a. Navigate to backend:   
    `cd [pathToRepo]/client/backend`
@@ -167,7 +167,7 @@ A table containing a description of the contribution per participant. Students s
    f. Start server:  
    `npm start`
 
-## Setup Frontend
+## 9.3 Setup Frontend
 
    a. Navigate to frontend:  
    `cd [pathToRepo]/client/frontend2`
