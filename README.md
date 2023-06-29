@@ -121,6 +121,8 @@ A table containing a description of the contribution per participant. Students s
 
 | Bruno Marques | Task | Evidence | Explanation |
 | --- | --- | --- | --- |
+| | Chaincode | [Commit1](https://github.com/brumarq/bitvote/commit/28060ba5d9846ae12f3b6e36fd429f18b5d39a7f)  [Commit2](https://github.com/brumarq/bitvote/commit/a6f58f838cb49eaa1071a8f75782b92a00fe6c20) | Setup the cahin code to be able to create polls and votes.
+| | API calls | [Commit1](https://github.com/brumarq/bitvote/commit/a6f58f838cb49eaa1071a8f75782b92a00fe6c20#diff-d2f13051fdd5cb77b2d5945a9f10a621d7691950ddfe936c6d1d8d85c0b6bdda)  [Commit2](https://github.com/brumarq/bitvote/commit/c342aec1ea0ab6533ce555b4685f494fa911d619) | Setup the api calls to create votes and polls.
 
 | Wietze Bronkema | Task | Evidence | Explanation |
 | --- | --- | --- | --- |
