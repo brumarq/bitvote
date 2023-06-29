@@ -89,6 +89,8 @@ API Calls:
 - `/rest/poll`: This call is a POST request that only allows organizers to create a poll.
 - `/rest/results`: This is a GET request that allows users to make a request of the results of a certain poll.
 
+[Here is the link to the Postman folder](https://elements.getpostman.com/redirect?entityId=17458453-69e92250-8de6-4a71-a687-52169c6f1e91&entityType=collection)
+
 # 6. Architecture Organization
 ## 6.1 Peers and organizations
 In the BitVote voting system, peers and organizations play important roles.
