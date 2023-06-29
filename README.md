@@ -101,11 +101,13 @@ In conclusion, we are using a **Multi-peer and Multi-organisation** network orga
 
 ## 6.2 Consensus/Endorsement Mechanism
 
-The BitVote network employs consensus and endorsement mechanisms to establish the integrity and immutability of the voting process:
+As stated previously, the network consists of two organizations, which each operate its own peer. When one peer receives a new vote from the client (the online voting dashboard), this will invoke the `createVote` method. The same applies when a new vote is created using `createPoll`.
 
-- **Consensus** 
+Whenever either of these methods is invoked, a new transaction is created. At this stage, the transaction is a transaction 'proposal', it is not yet finalized or included in the blockchain. The peer will submit this transaction proposal to the other peer on the network, which will then verify that the transaction is correct, has not been submitted previously, and adheres to the business rules set by the network.
 
-- **Endorsement** 
+If the transaction proposal was validated correctly, it is broadcast to the ordering service, together with the signature of the node that received the transaction proposal. The ordering node takes in the new (endorsed) transaction, 'orders' it into a block, and delivers the new block(s) to both peers on the network. These blocks are immutable and its transaction cannot be changed from this point.
+
+Since this application is a proof-of-concept, there are only two organizations. In a real-life scenario, there would likely be more organizations and peers, and each peer would have to attest to the proposed transactions in order to reach a majority consensus before the transaction can be included in a block.
 
 # 7. Network hosting
 
