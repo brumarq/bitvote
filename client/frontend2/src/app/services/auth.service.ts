@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Participant } from '../model/participant';
-import { EventService } from './event.service';
 import { share } from 'rxjs/operators';
 
 
@@ -14,7 +13,7 @@ export class AuthService {
   email = null;
   idToken = null;
 
-  constructor(private httpClient: HttpClient, private eventService: EventService) { }
+  constructor(private httpClient: HttpClient) { }
 
   getIssuerAuthURL() {
     return this.httpClient.get('http://localhost:8080/rest/issuer/auth-url');
@@ -45,7 +44,6 @@ export class AuthService {
 
     observable.subscribe((data) => {
       this.currentUser = data;
-      this.eventService.subscribe(this.currentUser.id);
     },
     (err) => {  
       this.currentUser = null;
@@ -56,7 +54,6 @@ export class AuthService {
 
   logout() {
     this.currentUser = null;
-    this.eventService.unsubscribe();
     this.idToken = null;
     this.email = null;
   }

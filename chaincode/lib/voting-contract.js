@@ -1,6 +1,6 @@
 /*
- * Egg Tracking Smart Contract
- * Author: MFK
+ * Voting Contract
+ * Author: Bruno Coimbra Marques
  */
 
 "use strict";
@@ -26,7 +26,7 @@ class VotingContract extends Contract {
 	}
 
 	/**
-	 * Utility function checking if a user is a farmer
+	 * Utility function checking if a user is a voter
 	 * @param {*} identity - the identity object
 	 */
 	isVoter(identity) {
@@ -34,7 +34,7 @@ class VotingContract extends Contract {
 	}
 
 	/**
-	 * Utility function checking if a user is a distributor
+	 * Utility function checking if a user is a organizer
 	 * @param {*} identity - the identity object
 	 */
 	isOrganizer(identity) {
@@ -69,7 +69,7 @@ class VotingContract extends Contract {
 	 *
 	 * @param id - The participant identifier
 	 * @param name - The participant name
-	 * @param role - Farmer, Shipper, or Distributor
+	 * @param role - Voter, Organizer or Admin
 	 * @returns the newly created participant
 	 */
 	async createParticipant(ctx, id, name, role) {
@@ -95,15 +95,11 @@ class VotingContract extends Contract {
 		// update state with new participant
 		await ctx.stub.putState(key, participant.serialise());
 
-		// Return the newly created shipment
 		return JSON.stringify(participant);
 	}
 
 	/**
 	 * Get participant
-	 *
-	 * This transaction is started by the farmer that collected eggs
-	 * and stored them in a box
 	 *
 	 * @param id - The participant identifier
 	 * @returns the participant
@@ -128,7 +124,7 @@ class VotingContract extends Contract {
 		// get object from buffer
 		const participant = Participant.deserialise(buffer);
 
-		// Return the newly created eggbox
+		// Return the participant
 		return JSON.stringify(participant);
 	}
 

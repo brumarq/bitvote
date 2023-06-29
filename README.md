@@ -144,7 +144,7 @@ A table containing a description of the contribution per participant. Students s
    `./network.sh up createChannel -ca -s couchdb`
    
    d. Build chaincode:   
-   `./network.sh deployCC -ccn egg-tracking -ccp /[PathToRepo]/bitvote/chaincode -ccv 1 -ccs 1 -ccl javascript`
+   `./network.sh deployCC -ccn voting-contract -ccp /[PathToRepo]/bitvote/chaincode -ccv 1 -ccs 1 -ccl javascript`
 
 ## Setup Backend
 

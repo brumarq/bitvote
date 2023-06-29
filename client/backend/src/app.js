@@ -24,8 +24,6 @@ const oAuth2Client = new google.auth.OAuth2(
 /**
  * Register a participant
  * An authentication token is mandatory
- *
- * {"id":"F1","name":"Farmer 1","role":"Farmer"}
  */
 app.post("/rest/participants", async (req, res) => {
 	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);
@@ -67,8 +65,6 @@ app.post("/rest/participants", async (req, res) => {
 
 /**
  * Create Poll
- *
- * {"organizerId": "bruno.coimbra55@gmail.com","options":"['option1', 'option2']","open":"10-12-1999","closed":"12-12-2100"}
  */
 app.post("/rest/poll", async (req, res) => {
 	const userEmail = await network.validateToken(req, oAuth2Client, OAuth2Data);
@@ -104,8 +100,6 @@ app.post("/rest/poll", async (req, res) => {
 
 /**
  * Create Vote
- *
- * {"voterId":"brunocm@pm.me","poll_ID":"poll:2","voteTimestamp":"10-12-2023","selection":"0"}
  */
 app.post("/rest/vote", async (req, res) => {
 	const userEmail = await network.validateToken(req, oAuth2Client, OAuth2Data);
@@ -165,10 +159,7 @@ app.get("/rest/results", async (req, res) => {
 });
 
 /**
- * Pack eggs
- * An authentication token is mandatory
- *
- * {"farmerId":"F1","packingTimestamp":"20191124141755","quantity":"30"}
+ * Authenticate a participant
  */
 app.post("/rest/participants/auth", async (req, res) => {
 	const validToken = await network.validateToken(req, oAuth2Client, OAuth2Data);

@@ -7,9 +7,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
-import { EggboxListComponent } from './components/eggbox-list/eggbox-list.component';
-import { ShipmentListComponent } from './components/shipment-list/shipment-list.component';
-import { ShipmentDetailsComponent } from './components/shipment-details/shipment-details.component';
 import { LoginCallbackComponent } from './components/login-callback/login-callback.component';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -22,9 +19,6 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     SignUpComponent,
     LoginComponent,
     HomeComponent,
-    EggboxListComponent,
-    ShipmentListComponent,
-    ShipmentDetailsComponent,
     LoginCallbackComponent    
   ],
   imports: [

@@ -1,6 +1,6 @@
 /*
- * Representation of an Egg Box Asset
- * Author: MFK
+ * Representation of a participant
+ * Author: Bruno Coimbra Marques
  */
 
 'use strict';

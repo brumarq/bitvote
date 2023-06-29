@@ -1,7 +1,7 @@
 {
   "name": "voting-contract",
   "version": "1.0.0",
-  "description": "Egg Tracking contract implemented in JavaScript",
+  "description": "Voting system in Hyperledger Fabric",
   "main": "index.js",
   "engines": {
     "node": ">=8",
