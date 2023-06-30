@@ -136,6 +136,8 @@ A table containing a description of the contribution per participant. Students s
 | Mike Fels | Task | Evidence | Explanation |
 | --- | --- | --- | --- |
 | | Documentation | [Commit](https://github.com/brumarq/bitvote/tree/59f86da81e069bc7ddf462b0a6e6c123bcfb2e11) | Worked on the documentation.
+| | Voting results | ... | Supporting various teammates to retrieve the results of a given poll through a REST endpoint.
+
 
 
 # 9. Setup Instructions
