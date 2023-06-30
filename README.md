@@ -49,7 +49,7 @@ In the BitVote platform, various entities are modeled to ensure the smooth funct
    - **CreatePoll**: Allows organizations to create new voting pools, and define pool closure to and poll opening.
    - **GetResults**: This transactions allows organizations to retrieve the results of the poll. The results tell you which option won and who voted for which option. For now the votes **are not encrypted**.
 
-![image](https://github.com/brumarq/bitvote/assets/44119479/33b7093a-49f9-4ce9-b509-e3e53c6b0a84)
+<img width="1000" alt="image" src="https://github.com/brumarq/bitvote/assets/44119479/abee5522-acdc-4aa9-b686-a0b837a6ea27">
 
 # 3. Logic (Smart Contracts)
 
@@ -99,7 +99,7 @@ Each peer stores the voting records and verify each vote before adding it to the
 
 In conclusion, we are using a **Multi-peer and Multi-organisation** network organization
 
-<img width="1000" alt="arch" src="https://github.com/brumarq/bitvote/assets/44119479/092a5a5d-8cbb-4a54-acc7-376097b41b9e">
+![image](https://github.com/brumarq/bitvote/assets/44119479/1d53b01b-92f9-42c8-bd17-e8e75b609900)
 
 ## 6.2 Consensus/Endorsement Mechanism
 
