@@ -130,6 +130,7 @@ A table containing a description of the contribution per participant. Students s
 | | Consensus documentation | [Commit](https://github.com/brumarq/bitvote/commit/426c35cb98bdde78516d12a8b62003dc45cf6fd2) | Provided information about the consensus mechanism of the application.
 
 | Sander Harks | Task | Evidence | Explanation |
+| --- | --- | --- | --- |
 | | Voting results | [Commit](https://github.com/brumarq/bitvote/commit/e831f57b3bc74773376c8ea1445a7e4ec6334127) | Worked together with various teammates to retrieve the results of a given poll through a REST endpoint.
 
 | Mike Fels | Task | Evidence | Explanation |
